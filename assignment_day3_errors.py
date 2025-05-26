@@ -1,0 +1,1 @@
+'''write  a program to handle errors the program should ask for two numbers using input and then divides them use an infinite loop to keep asking until a valid input is provide'''
