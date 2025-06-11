@@ -1,4 +1,4 @@
-'''import os
+import os
 import numpy as np
 import tensorflow as tf
 from tensorflow.keras.preprocessing.image import ImageDataGenerator  # type: ignore
@@ -17,8 +17,8 @@ ANIMAL_CLASSES = 3  # Dog, Cat, Human (for filtering)
 
 # Paths
 # Should contain subfolders: crops/healthy, crops/diseased, animals/dog, animals/cat, animals/human
-DATASET_DIR = "MachineLearning"  # Replace with your dataset path
-MODEL_PATH = "MachineLearning/agricure_model.h5"
+DATASET_DIR = "dataset"
+MODEL_PATH = "agricure_model.h5"
 
 
 def create_model(input_shape, num_classes):
@@ -210,142 +210,3 @@ if __name__ == "__main__":
         print(f"Confidence: {prediction['confidence']:.2%}")
     else:
         print(f"Test image {test_image} not found")
-        
-        '''
-        
-        #library for machine learning
-#scikit-learn
-#TensorFlow
-#Keras
-#PyTorch
-import os
-import numpy as np
-import tensorflow as tf
-from tensorflow import keras
-from tensorflow.keras.preprocessing.image import ImageDataGenerator
-from tensorflow.keras.models import Sequential
-from tensorflow.keras.layers import Conv2D, MaxPooling2D, Flatten, Dense, Dropout
-from tensorflow.keras.callbacks import EarlyStopping, ModelCheckpoint
-from tensorflow.keras.optimizers import Adam
-from matplotlib import pyplot as plt
-# set random seed for reproducibility
-tf.random.set_seed(42)
-np.random.seed(42)
-
-#define the constant values 
-IMAGE_SIZE = (256, 256)  # Size to which images will be resized
-BATCH_SIZE = 32
-EPOCHS = 50
-NUM_CLASSES = 10  # Number of classes in the dataset
-ANIMAL_CLASSES = 3 # Number of animal classes in the dataset
-
-# DEFINE THE DATASET DIRECTORY AND MODEL PATHS
-
-DATASET_DIR = 'path/to/your/MachineLearning'  # Replace with your dataset path
-MODEL_PATH = "model.h5" #file to send a trained model
-
-#create a convolutional neural network model
-def create_model(input_shape, num_classes):
-    """Create a CNN model for image classification"""
-    model = Sequential([
-        Conv2D(32, (3, 3), activation='relu', input_shape=input_shape),
-        MaxPooling2D(2, 2),
-        Conv2D(64, (3, 3), activation='relu'),
-        MaxPooling2D(2, 2),
-        Conv2D(128, (3, 3), activation='relu'),
-        MaxPooling2D(2, 2),
-        Flatten(),
-        Dropout(0.5),
-        Dense(512, activation='relu'),
-        Dense(num_classes, activation='softmax')
-    ])
-
-    model.compile(optimizer=Adam(learning_rate=0.0001),
-                  loss='categorical_crossentropy',
-                  metrics=['accuracy'])
-    return model
-
-def train_crop_model():
-    """Train the main crop disease detection model"""
-    # Data generators with augmentation
-    train_datagen = ImageDataGenerator(
-        rescale=1./255,  # Normalize pixel values to [0, 1]
-        rotation_range=40,
-        width_shift_range=0.2,
-        height_shift_range=0.2,
-        shear_range=0.2,
-        zoom_range=0.2,
-        horizontal_flip=True,
-        fill_mode='nearest',
-        validation_split=0.2
-    )
-
-    # Load datasets
-    train_generator = train_datagen.flow_from_directory(
-        os.path.join(DATASET_DIR, "crops"),
-        target_size=IMAGE_SIZE,
-        batch_size=BATCH_SIZE,
-        class_mode='categorical',
-        subset='training'
-    )
-
-    validation_generator = train_datagen.flow_from_directory(
-        os.path.join(DATASET_DIR, "crops"),
-        target_size=IMAGE_SIZE,
-        batch_size=BATCH_SIZE,
-        class_mode='categorical',
-        subset='validation'
-    )
-
-    # Create and train model
-    model = create_model(IMAGE_SIZE + (3,), NUM_CLASSES)
-
-    callbacks = [
-        ModelCheckpoint(MODEL_PATH, save_best_only=True),
-        EarlyStopping(patience=5, restore_best_weights=True)
-    ]
-
-    history = model.fit(
-        train_generator,
-        steps_per_epoch=train_generator.samples // BATCH_SIZE,
-        epochs=EPOCHS,
-        validation_data=validation_generator,
-        validation_steps=validation_generator.samples // BATCH_SIZE,
-        callbacks=callbacks
-    )
-
-    # Plot training history
-    plot_training_history(history)
-    return model
-
-def train animal filter():
-    """Train a secondary model to filter out animals/humans"""
-    animal_datagen = ImageDataGenerator(rescale=1./255, validation_split=0.2)
-
-    train_generator = animal_datagen.flow_from_directory(
-        os.path.join(DATASET_DIR, "animals"),
-        target_size=IMAGE_SIZE,
-        batch_size=BATCH_SIZE,
-        class_mode='categorical',
-        subset='training'
-    )
-
-    validation_generator = animal_datagen.flow_from_directory(
-        os.path.join(DATASET_DIR, "animals"),
-        target_size=IMAGE_SIZE,
-        batch_size=BATCH_SIZE,
-        class_mode='categorical',
-        subset='validation'
-    )
-
-    model = create_model(IMAGE_SIZE + (3,), ANIMAL_CLASSES)
-
-    model.fit(
-        train_generator,
-        steps_per_epoch=train_generator.samples // BATCH_SIZE,
-        epochs=10,
-        validation_data=validation_generator,
-        validation_steps=validation_generator.samples // BATCH_SIZE
-    )
-
-    
