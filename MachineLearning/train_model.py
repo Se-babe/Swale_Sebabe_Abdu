@@ -318,34 +318,3 @@ def train_crop_model():
     plot_training_history(history)
     return model
 
-def train animal filter():
-    """Train a secondary model to filter out animals/humans"""
-    animal_datagen = ImageDataGenerator(rescale=1./255, validation_split=0.2)
-
-    train_generator = animal_datagen.flow_from_directory(
-        os.path.join(DATASET_DIR, "animals"),
-        target_size=IMAGE_SIZE,
-        batch_size=BATCH_SIZE,
-        class_mode='categorical',
-        subset='training'
-    )
-
-    validation_generator = animal_datagen.flow_from_directory(
-        os.path.join(DATASET_DIR, "animals"),
-        target_size=IMAGE_SIZE,
-        batch_size=BATCH_SIZE,
-        class_mode='categorical',
-        subset='validation'
-    )
-
-    model = create_model(IMAGE_SIZE + (3,), ANIMAL_CLASSES)
-
-    model.fit(
-        train_generator,
-        steps_per_epoch=train_generator.samples // BATCH_SIZE,
-        epochs=10,
-        validation_data=validation_generator,
-        validation_steps=validation_generator.samples // BATCH_SIZE
-    )
-
-    
