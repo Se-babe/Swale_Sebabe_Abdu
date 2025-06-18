@@ -93,9 +93,34 @@ def train_crop_model():
         callbacks=callbacks
     )
 
-    # Plot training history
-    plot_training_history(history)
-    return model
+        # Plot training history
+        plot_training_history(history)
+        return model
+    
+    def plot_training_history(history):
+        """Plot training and validation accuracy/loss"""
+        acc = history.history['accuracy']
+        val_acc = history.history['val_accuracy']
+        loss = history.history['loss']
+        val_loss = history.history['val_loss']
+    
+        epochs_range = range(len(acc))
+    
+        plt.figure(figsize=(12, 6))
+        plt.subplot(1, 2, 1)
+        plt.plot(epochs_range, acc, label='Training Accuracy')
+        plt.plot(epochs_range, val_acc, label='Validation Accuracy')
+        plt.legend(loc='lower right')
+        plt.title('Training and Validation Accuracy')
+    
+        plt.subplot(1, 2, 2)
+        plt.plot(epochs_range, loss, label='Training Loss')
+        plt.plot(epochs_range, val_loss, label='Validation Loss')
+        plt.legend(loc='upper right')
+        plt.title('Training and Validation Loss')
+    
+        plt.savefig('training_history.png')
+        plt.close()
 
 
 def train_animal_filter():
@@ -218,13 +243,14 @@ if __name__ == "__main__":
 #TensorFlow
 #Keras
 #PyTorch
+'''
 import os
 import numpy as np
 import tensorflow as tf
 from tensorflow import keras
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
 from tensorflow.keras.models import Sequential
-from tensorflow.keras.layers import Conv2D, MaxPooling2D, Flatten, Dense, Dropout
+from keras.layers import Conv2D, MaxPooling2D, Flatten, Dense, Dropout
 from tensorflow.keras.callbacks import EarlyStopping, ModelCheckpoint
 from tensorflow.keras.optimizers import Adam
 from matplotlib import pyplot as plt
@@ -318,3 +344,4 @@ def train_crop_model():
     plot_training_history(history)
     return model
 
+'''
