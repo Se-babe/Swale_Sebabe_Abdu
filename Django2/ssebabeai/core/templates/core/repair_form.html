@@ -1,0 +1,12 @@
+{% extends 'core/base.html' %}
+
+{% block content %}
+<h2 class="mb-3">🔧 Add Repair Record for {{ phone.brand }} {{ phone.model }}</h2>
+
+<form method="post" class="card p-4 shadow-sm">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-success">Save Repair Record</button>
+    <a href="{% url 'phone_detail' phone.pk %}" class="btn btn-secondary ms-2">Cancel</a>
+</form>
+{% endblock %}

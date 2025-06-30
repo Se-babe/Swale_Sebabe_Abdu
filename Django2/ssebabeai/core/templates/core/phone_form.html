@@ -1,0 +1,7 @@
+{% extends 'core/base.html' %}
+<h2>Add a New Phone</h2>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Save</button>
+</form>

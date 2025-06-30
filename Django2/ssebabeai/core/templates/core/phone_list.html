@@ -1,0 +1,35 @@
+{% extends 'core/base.html' %}
+
+{% block content %}
+<h2 class="mb-4">📱 All Phones</h2>
+<a href="{% url 'phone_add' %}" class="btn btn-primary mb-3">Add New Phone</a>
+
+<table class="table table-bordered table-striped table-hover shadow-sm">
+    <thead class="table-dark">
+        <tr>
+            <th>Brand</th>
+            <th>Model</th>
+            <th>IMEI</th>
+            <th>Customer</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for phone in phones %}
+        <tr>
+            <td>{{ phone.brand }}</td>
+            <td>{{ phone.model }}</td>
+            <td>{{ phone.imei }}</td>
+            <td>{{ phone.customer.name }}</td>
+            <td>
+                <a href="{% url 'phone_detail' phone.pk %}" class="btn btn-sm btn-info">View</a>
+            </td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="5" class="text-center text-muted">No phones found.</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

@@ -1,0 +1,16 @@
+{% extends 'core/base.html' %}
+
+{% block content %}
+<h2>👤 All Customers</h2>
+<a href="{% url 'customer_add' %}" class="btn btn-success mb-3">Add New Customer</a>
+
+<ul class="list-group">
+    {% for customer in customers %}
+    <li class="list-group-item d-flex justify-content-between align-items-center">
+        <a href="{% url 'customer_detail' customer.pk %}">{{ customer.name }}</a>
+    </li>
+    {% empty %}
+    <li class="list-group-item text-muted">No customers found.</li>
+    {% endfor %}
+</ul>
+{% endblock %}

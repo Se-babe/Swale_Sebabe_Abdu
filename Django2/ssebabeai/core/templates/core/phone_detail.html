@@ -1,0 +1,35 @@
+{% extends 'core/base.html' %}
+
+{% block content %}
+<div class="card shadow-sm p-4">
+    <h2>{{ phone.brand }} {{ phone.model }}</h2>
+    <p><strong>IMEI:</strong> {{ phone.imei }}</p>
+    <p><strong>Customer:</strong> <a href="{% url 'customer_detail' phone.customer.pk %}">{{ phone.customer.name }}</a></p>
+
+    <a href="{% url 'add_repair_record' phone.pk %}" class="btn btn-warning mt-3">Add Repair Record</a>
+</div>
+
+<h3 class="mt-5">🛠️ Repair History</h3>
+{% if phone.repairrecord_set.all %}
+    <table class="table table-bordered table-striped mt-3">
+        <thead class="table-dark">
+            <tr>
+                <th>Issue</th>
+                <th>Solution</th>
+                <th>Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for repair in phone.repairrecord_set.all %}
+            <tr>
+                <td>{{ repair.issue }}</td>
+                <td>{{ repair.solution }}</td>
+                <td>{{ repair.repair_date }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% else %}
+    <p class="text-muted">No repair records available.</p>
+{% endif %}
+{% endblock %}
