@@ -1,0 +1,31 @@
+{
+  "channels": [
+    {
+      "chat_id": "6522463337",
+      "name": "xwale",
+      "active": true,
+      "Lang": "en"
+    }
+  ],
+  "posting_schedule": {
+    "daily_posts": 3,
+    "posting_hours": [
+      9,
+      14,
+      19
+    ],
+    "timezone": "UTC"
+  },
+  "content_settings": {
+    "topics": [
+      "Technology",
+      "Business",
+      "Motivation"
+    ],
+    "styles": [
+      "informative",
+      "casual",
+      "motivational"
+    ]
+  }
+}

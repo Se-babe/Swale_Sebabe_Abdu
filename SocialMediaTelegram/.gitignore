@@ -1,0 +1,6 @@
+
+# Add to .gitignore
+echo ".env" >> .gitignore
+echo "*.env" >> .gitignore
+echo "config.json" >> .gitignore
+echo "*.log" >> .gitignore
