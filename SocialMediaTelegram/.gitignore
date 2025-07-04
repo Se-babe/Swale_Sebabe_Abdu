@@ -4,3 +4,15 @@ echo ".env" >> .gitignore
 echo "*.env" >> .gitignore
 echo "config.json" >> .gitignore
 echo "*.log" >> .gitignore
+
+# .gitignore
+venv/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+
+echo venv/ > .gitignore
+echo __pycache__/ >> .gitignore
+echo *.pyc >> .gitignore
