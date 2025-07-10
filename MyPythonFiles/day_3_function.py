@@ -11,3 +11,12 @@ def function():
         print('good morning,welcome to the python class')
         greet_student()#calling a function
         
+        
+        #return statements
+        #these ends the finction execution and returns a value
+        def add_numbers(a, b):
+            return a + b    
+        #calling the function
+        result = add_numbers(5, 10)
+        print("The sum is:", result)
+        
