@@ -1,0 +1,13 @@
+
+<h2>Enrollments</h2>
+<form method="POST">
+    Student ID: <input type="text" name="student_id">
+    Course ID: <input type="text" name="course_id">
+    <input type="submit" value="Enroll">
+</form>
+<ul>
+    {% for record in enrollments %}
+        <li>{{ students[record.student_id] }} enrolled in {{ courses[record.course_id] }}</li>
+    {% endfor %}
+</ul>
+<a href="/">Back</a>
