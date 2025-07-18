@@ -55,11 +55,11 @@ class TelegramAIAgent:
             content = self.generate_post()
             success, response = self.post_to_channel(channel, content)
             if success:
-                print(f"✅ Posted to {channel.name} - {channel.chat_id}")
+                print(f" Posted to {channel.name} - {channel.chat_id}")
             else:
-                print(f"❌ Failed to post to {channel.name}: {response}")
+                print(f" Failed to post to {channel.name}: {response}")
 
-# --- SCHEDULE POSTING ---
+# SCHEDULE POSTING 
 def job(agent):
     print(f"\n[SCHEDULED POST] {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
     asyncio.run(agent.process_scheduled_posts())
